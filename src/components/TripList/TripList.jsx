@@ -1,0 +1,12 @@
+export const TripList = () => {
+  return <div>TripList</div>;
+};
+
+// <input list="brow" />
+// <datalist id="brow">
+//   <option value="Internet Explorer" />
+//   <option value="Firefox" />
+//   <option value="Chrome" />
+//   <option value="Opera" />
+//   <option value="Safari" />
+// </datalist>
