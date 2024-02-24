@@ -1,0 +1,30 @@
+.tripWrapper {
+  display: flex;
+  gap: 60px;
+}
+
+.tripList {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 60px;
+}
+
+.addBtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  width: 300px;
+  height: 300px;
+  border: none;
+
+  background-color: #f8f9fa;
+
+  transition: background-color var(--transition);
+}
+
+.addBtn:hover {
+  background-color: #d3d4d5;
+}

@@ -1,0 +1,42 @@
+.tripItemWrapper {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  cursor: pointer;
+}
+
+/* .tripItemWrapper:hover {
+  border-color: blue;
+} */
+
+.tripItemWrapper > img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center center;
+
+  border: 1px solid var(--grey-rgba);
+  border-bottom: none;
+}
+
+.tripItemLabels {
+  padding: 34px 24px;
+
+  border: 1px solid var(--grey-rgba);
+
+  transition: border var(--transition);
+}
+
+.tripItemWrapper:hover .tripItemLabels {
+  border-color: #0096c7;
+}
+
+.tripItemLabels > h3 {
+  margin-bottom: 12px;
+}
+
+.tripItemLabels > p {
+  color: grey;
+}
