@@ -1,0 +1,22 @@
+.bodyWrapper {
+  display: flex;
+}
+
+.headerAndMainWrapper {
+  margin-left: auto;
+}
+
+header {
+  max-width: 1220px;
+  margin: 0px auto;
+  padding: 20px 0 40px 0;
+}
+
+header > a {
+  font-size: 30px;
+  font-weight: 400;
+}
+
+header > a > span {
+  font-weight: 600;
+}

@@ -33,11 +33,7 @@ const Modal = ({ toggle, onSave }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     onSave(city, startDate, endDate);
-    setCity("");
-    setStartDate("");
-    setEndDate("");
     toggle();
   };
 
@@ -52,7 +48,7 @@ const Modal = ({ toggle, onSave }) => {
     <div className={styles.backdrop} onClick={handleBackdropClick}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <p>Create trip</p>
+          <h2>Create trip</h2>
 
           <button type="button" className={styles.closeBtn} onClick={toggle}>
             <CloseIcon />
@@ -63,29 +59,34 @@ const Modal = ({ toggle, onSave }) => {
           <form id="addTripForm" onSubmit={handleSubmit}>
             <label>
               <span>City</span>
-              <input
-                list="cities"
+              <select
+                name="city"
                 required
-                placeholder="Please select a city"
-                onChange={(event) => setCity(event.target.value)}
                 value={city}
-              />
-              <datalist id="cities">
-                {topCities.map((city) => (
-                  <option key={city.name} value={city.name} />
+                onChange={(e) => setCity(e.target.value)}
+              >
+                <option value="" disabled>
+                  Please select a city
+                </option>
+
+                {topCities.map((city, index) => (
+                  <option key={index} value={city.name}>
+                    {city.name}
+                  </option>
                 ))}
-              </datalist>
+              </select>
             </label>
 
             <label>
               <span>Start date</span>
               <input
                 type="date"
+                name="start-date"
                 required
                 min={todayString}
                 max={maxDateString}
                 onChange={(event) => setStartDate(event.target.value)}
-                value={startDate}
+                value={startDate && startDate}
               />
             </label>
 
@@ -93,11 +94,12 @@ const Modal = ({ toggle, onSave }) => {
               <span>End date</span>
               <input
                 type="date"
+                name="end-date"
                 required
                 min={startDate}
                 max={maxDateString}
                 onChange={(event) => setEndDate(event.target.value)}
-                value={endDate}
+                value={endDate && endDate}
               />
             </label>
           </form>

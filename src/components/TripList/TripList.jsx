@@ -1,30 +1,25 @@
-import { useEffect, useState } from "react";
-// import { fetchFromToWeather } from "../../services/apiService";
+import { useEffect, useRef, useState } from "react";
+import { fetchFromToWeather } from "../../services/apiService";
 import TripItem from "../TripItem/TripItem";
 import Modal from "../Modal/Modal";
 import topCities from "../../data/topCities.json";
 import styles from "./TripList.module.css";
-import { PlusIcon } from "../Icons/Icons";
+import { LeftArrowIcon, PlusIcon, RightArrowIcon } from "../Icons/Icons";
 import WeatherForecast from "../WeatherForecast/WeatherForecast";
+import { staticTrip } from "../../data/staticTrip.js";
+import TripsFilter from "../TripsFilter/TripsFilter.jsx";
 
-const staticTrip = {
-  name: "Kyiv",
-  imgSrc:
-    "https://cdn.pixabay.com/photo/2020/05/21/21/49/city-5202950_1280.jpg",
-  startDate: new Date().toISOString().split("T")[0],
-  endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-    .toISOString()
-    .split("T")[0],
-};
-
-const TripList = () => {
+const TripList = ({ getTripInfo }) => {
   const [showModal, setShowModal] = useState(false);
-  const [showForecast, setShowForecast] = useState(true);
+  const [dailyWeather, setDailyWeather] = useState([]);
   const [tripList, setTripList] = useState(() => {
     const savedTripList = localStorage.getItem("tripList");
-
     return savedTripList ? JSON.parse(savedTripList) : [staticTrip];
   });
+  const tripListContainerRef = useRef(null);
+  const [filterValue, setFilterValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     localStorage.setItem("tripList", JSON.stringify(tripList));
@@ -42,50 +37,94 @@ const TripList = () => {
       };
       setTripList([...tripList, newTrip]);
     }
+
+    setTimeout(() => {
+      if (tripListContainerRef.current) {
+        tripListContainerRef.current.scrollLeft =
+          tripListContainerRef.current.scrollWidth;
+      }
+    }, 100);
   };
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
 
-  const toggleForecastDisplay = () => {
-    setShowForecast(!showForecast);
+  const fetchWeatherForTheWeekDay = async (name, startDate, endDate) => {
+    try {
+      setIsLoading(true);
+      const { days } = await fetchFromToWeather(name, startDate, endDate);
+      setDailyWeather(days);
+      getTripInfo(name, days[0]);
+      setError(null);
+    } catch (error) {
+      console.dir(error);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // useEffect(() => {
-  //   const getWeatherFromTo = async () => {
-  //     try {
-  //       const res = await fetchFromToWeather(
-  //         "Kyiv",
-  //         "2024-02-24",
-  //         "2024-02-28"
-  //       );
-  //       console.log("res in list", res);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
+  const scrollLeft = () => {
+    if (tripListContainerRef.current) {
+      tripListContainerRef.current.scrollLeft -= 600;
+    }
+  };
+  const scrollRight = () => {
+    if (tripListContainerRef.current) {
+      tripListContainerRef.current.scrollLeft += 600;
+    }
+  };
 
-  //   getWeatherFromTo();
-  // }, []);
+  const handleFilter = (event) => {
+    setFilterValue(event.target.value);
+  };
+
+  const getFilteredTrips = () => {
+    return tripList.filter((trip) =>
+      trip.name.toLowerCase().includes(filterValue.toLowerCase())
+    );
+  };
+  const filteredTrips = getFilteredTrips();
 
   return (
     <>
-      <h2>TripList</h2>
+      <h2 className="visually-hidden">TripList</h2>
 
-      <div className={styles.tripWrapper}>
-        <ul className={styles.tripList}>
-          {tripList.map(({ name, startDate, endDate, imgSrc }) => (
-            <TripItem
-              key={name}
-              name={name}
-              startDate={startDate}
-              endDate={endDate}
-              imgSrc={imgSrc}
-              toggleForecast={toggleForecastDisplay}
-            />
-          ))}
-        </ul>
+      <TripsFilter onFilter={handleFilter} value={filterValue} />
+
+      <div
+        className={styles.tripsWrapper}
+        style={filteredTrips.length === 0 ? { gap: 0 } : {}}
+      >
+        <div>
+          <ul className={styles.tripList} ref={tripListContainerRef}>
+            {filteredTrips.map(
+              ({ name, startDate, endDate, imgSrc }, index) => (
+                <TripItem
+                  key={index}
+                  name={name}
+                  startDate={startDate}
+                  endDate={endDate}
+                  imgSrc={imgSrc}
+                  fetchWeatherForTheWeekDay={fetchWeatherForTheWeekDay}
+                />
+              )
+            )}
+          </ul>
+
+          {filteredTrips.length > 3 && (
+            <div className={styles.navBtnsWrapper}>
+              <button className={styles.arrowBtn} onClick={scrollLeft}>
+                <LeftArrowIcon />
+              </button>
+              <button className={styles.arrowBtn} onClick={scrollRight}>
+                <RightArrowIcon />
+              </button>
+            </div>
+          )}
+        </div>
+
         <button onClick={toggleModal} className={styles.addBtn}>
           <PlusIcon />
           <span>Add trip</span>
@@ -93,20 +132,18 @@ const TripList = () => {
       </div>
 
       {showModal && <Modal toggle={toggleModal} onSave={saveTrip} />}
-      {showForecast && <WeatherForecast />}
+
+      {isLoading ? (
+        <div>loading...</div>
+      ) : !error ? (
+        dailyWeather.length > 0 && (
+          <WeatherForecast dailyWeather={dailyWeather} />
+        )
+      ) : (
+        <p className={styles.error}>{error}</p>
+      )}
     </>
   );
 };
 
 export default TripList;
-
-// <input list="brow" />
-// <datalist id="brow">
-//   <option value="Internet Explorer" />
-//   <option value="Firefox" />
-//   <option value="Chrome" />
-//   <option value="Opera" />
-//   <option value="Safari" />
-// </datalist>
-
-// 2024-02-24 / 2024-02-28;

@@ -1,0 +1,37 @@
+.inputWrapper {
+  position: relative;
+
+  margin-bottom: 40px;
+}
+
+.inputWrapper > span {
+  display: inline-block;
+
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translate(0, -50%);
+
+  width: 28px;
+  height: 28px;
+
+  fill: grey;
+
+  transition: fill var(--transition);
+}
+
+.filterInput {
+  width: 300px;
+  height: 58px;
+
+  padding-left: 48px;
+
+  border: none;
+  border-radius: 12px;
+
+  background-color: var(--white-milk);
+}
+
+.filterInput:focus + span {
+  fill: black;
+}

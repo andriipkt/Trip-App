@@ -8,4 +8,8 @@ export const fetchFromToWeather = (city, dateFrom, dateTo) => {
   ).then((response) => response.json());
 };
 
-// "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/[city]/[date1]/[date2]?unitGroup=metric&include=days&key=YOUR_API_KEY&contentType=json";
+export const fetchTodaysWeather = (city) => {
+  return fetch(
+    `${BASE_URL}/${city}/today?unitGroup=metric&include=days&key=${API_KEY}&contentType=json`
+  ).then((response) => response.json());
+};
