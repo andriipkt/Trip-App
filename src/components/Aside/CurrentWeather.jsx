@@ -73,7 +73,6 @@ const CurrentWeather = ({
       <h2 className="visually-hidden">Today&apos;s weather</h2>
 
       <p className={styles.weekDay}>{daysOfTheWeek[new Date().getDay() - 1]}</p>
-      <p>{infoForToday?.datetime}</p>
 
       {infoForToday && (
         <>
