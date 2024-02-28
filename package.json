@@ -1,9 +1,9 @@
 {
-  "homepage": "https://andriipkt.github.io/weather-app/",
   "name": "weather-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://andriipkt.github.io/weather-app/",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",
