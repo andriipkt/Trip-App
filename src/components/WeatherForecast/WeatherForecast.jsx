@@ -16,6 +16,7 @@ const WeatherForecast = ({ dailyWeather }) => {
                 {daysOfTheWeek[new Date(datetime).getDay()]}
               </p>
 
+              <p>{datetime}</p>
               {WeatherIcon && (
                 <img src={WeatherIcon} alt={icon} width="100" height="100" />
               )}
@@ -32,9 +33,3 @@ const WeatherForecast = ({ dailyWeather }) => {
 };
 
 export default WeatherForecast;
-
-//rain
-//snow
-//cloudy
-//partly-cloudy-day
-//clear-day

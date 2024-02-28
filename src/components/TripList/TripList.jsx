@@ -81,9 +81,11 @@ const TripList = ({ getTripInfo }) => {
   };
 
   const getFilteredTrips = () => {
-    return tripList.filter((trip) =>
-      trip.name.toLowerCase().includes(filterValue.toLowerCase())
-    );
+    return tripList
+      .filter((trip) =>
+        trip.name.toLowerCase().includes(filterValue.toLowerCase())
+      )
+      .sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
   };
   const filteredTrips = getFilteredTrips();
 

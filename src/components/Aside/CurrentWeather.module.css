@@ -15,6 +15,11 @@
     url("../../assets/images/clouds-1768967_1280.jpg") no-repeat center/cover;
 }
 
+.weekDay {
+  font-size: 34px;
+  font-weight: 600;
+}
+
 .weatherInfo {
   display: flex;
   align-items: center;
@@ -28,4 +33,16 @@
 
 .weatherInfo > p > span {
   font-size: 28px;
+}
+
+.cityName {
+  font-size: 24px;
+}
+
+.error {
+  margin: 44px;
+
+  font-size: 24px;
+  font-weight: 600;
+  color: red;
 }
