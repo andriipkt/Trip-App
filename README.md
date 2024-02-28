@@ -2,7 +2,7 @@
 The Weather App is a simple web application designed to provide users with current weather information for a specified location. Users can view the current weather conditions, including temperature, weather icon, and additional details. The app also features a countdown timer to track the remaining time until a specified trip start date.
 
 <h2>Features:</h2>
-&nbsp; Trip Creation: 
+- &nbsp; Trip Creation: 
 Users can create a trip by providing details such as destination, start date, and end date.
 
 &nbsp; Weather Forecast: 
