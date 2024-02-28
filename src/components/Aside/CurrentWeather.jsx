@@ -45,9 +45,12 @@ const CurrentWeather = ({
       return;
     }
 
+    const parts = startTripDate.split("-");
+    const formattedStartDate = `${parts[1]}-${parts[2]}-${parts[0]}`;
+
     const timer = setInterval(() => {
       const now = new Date();
-      const tripStart = new Date(startTripDate);
+      const tripStart = new Date(formattedStartDate);
       const timeDiff = tripStart.getTime() - now.getTime();
 
       if (timeDiff > 0) {
@@ -66,7 +69,7 @@ const CurrentWeather = ({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [city, startTripDate, infoForToday]);
+  }, [city, infoForToday, startTripDate]);
 
   return (
     <aside className={styles.currentWeatherWrapper}>
